@@ -2,7 +2,7 @@
 
 This is a project to build a frontend for a coffee shop. The project will include a variety of components and features to create a user-friendly experience for customers.
 
-Live link: ...
+Live link: https://coffee-shop-frontend-seven.vercel.app/
 
 ## Technologies
 
