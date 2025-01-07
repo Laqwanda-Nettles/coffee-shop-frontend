@@ -13,5 +13,9 @@ export default {
       },
     },
   },
-  plugins: [],
+  daisyui: {
+    themes: ["retro", "coffee"],
+  },
+  plugins: [require("daisyui")],
+  darkMode: ["selector", '[data-theme="coffee"]'],
 };
