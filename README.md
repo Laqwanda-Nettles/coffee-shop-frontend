@@ -53,11 +53,21 @@ If you would like to contribute to this project, please follow these steps:
 
 ## Screenshots
 
-Add screenshots of the app here.
+### Navbar (Storybook, DaisyUi, Custom CSS)
+
+![alt text](image.png)
+
+### Button (Storybook, Tailwind)
+
+![alt text](image-1.png)
+
+### Test Button (Storybook, DaisyUi)
+
+![alt text](image-2.png)
 
 ## Attribution
 
-Give credit to any resources or inspiration you used in this project.
+Resources or inspiration used in this project.
 
 - [Tailwind CSS](https://tailwindcss.com/)
 - [DaisyUI](https://daisyui.com/)
