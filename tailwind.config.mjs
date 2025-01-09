@@ -14,7 +14,7 @@ export default {
     },
   },
   daisyui: {
-    themes: ["retro", "coffee"],
+    themes: ["autumn", "coffee"],
   },
   plugins: [require("daisyui")],
   darkMode: ["selector", '[data-theme="coffee"]'],
