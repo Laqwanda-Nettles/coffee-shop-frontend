@@ -4,7 +4,7 @@ export default function Button({ label, handleClick }) {
   return (
     <button
       onClick={handleClick}
-      className="btn btn-primary shadow-md shadow-secondary-content"
+      className="btn btn-primary shadow-md shadow-secondary-content hover:scale-105 duration-300"
     >
       {label}
     </button>
@@ -13,4 +13,5 @@ export default function Button({ label, handleClick }) {
 
 Button.propTypes = {
   label: PropTypes.string.isRequired,
+  handleClick: PropTypes.func.isRequired,
 };
