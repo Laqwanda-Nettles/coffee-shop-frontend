@@ -114,7 +114,7 @@ export default function Navbar({ title }) {
               </Link>
             </li>
             <li>
-              <Link href="#">Sign Up</Link>
+              <Link href="#">Sign In</Link>
             </li>
             <li>
               <Link href="#">Logout</Link>
