@@ -75,4 +75,7 @@ Resources or inspiration used in this project.
 
 ### Images
 
+Images Resource: pexels.com
+
 - Hero Photo by Pavel Danilyuk
+- Signup Photo by 鄭年堯
