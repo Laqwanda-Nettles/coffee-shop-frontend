@@ -7,7 +7,7 @@ export default function Signup() {
   const router = useRouter();
   function handleSignup() {
     alert("Sign up clicked!");
-    router.push("/signin");
+    router.push("/signup");
   }
   return (
     <div>
@@ -29,10 +29,7 @@ export default function Signup() {
             </p>
           </div>
           <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl"></div>
-          <SignupForm
-            buttonLabel="Sign Up"
-            handleSignup={() => alert("Sign up clicked!")}
-          />
+          <SignupForm buttonLabel="Sign Up" handleSignup={handleSignup} />
         </div>
       </div>
 
