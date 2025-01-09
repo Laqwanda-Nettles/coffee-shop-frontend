@@ -49,5 +49,5 @@ export default function SignupForm({ buttonLabel, handleSignup }) {
 
 SignupForm.propTypes = {
   buttonLabel: PropTypes.string.isRequired,
-  handleLogin: PropTypes.func.isRequired,
+  handleSignup: PropTypes.func.isRequired,
 };
