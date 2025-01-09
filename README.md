@@ -72,3 +72,7 @@ Resources or inspiration used in this project.
 - [Tailwind CSS](https://tailwindcss.com/)
 - [DaisyUI](https://daisyui.com/)
 - [Storybook](https://storybook.js.org/)
+
+### Images
+
+- Hero Photo by Pavel Danilyuk
