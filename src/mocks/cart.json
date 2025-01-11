@@ -7,7 +7,7 @@
       "price": 2.5,
       "category": "Beverage",
       "stock": 10,
-      "imageUrl": "/sample-images/espresso.jpg",
+      "imageUrl": "../../espresso.jpg",
       "_id": 0
     },
     {
@@ -16,7 +16,7 @@
       "price": 2,
       "category": "Food",
       "stock": 8,
-      "imageUrl": "/sample-images/croissant.jpg",
+      "imageUrl": "../../croissant.jpg",
       "_id": 2
     },
     {
@@ -25,7 +25,7 @@
       "price": 2.5,
       "category": "Food",
       "stock": 6,
-      "imageUrl": "/sample-images/muffin.jpg",
+      "imageUrl": "../../muffin.jpg",
       "_id": 3
     }
   ],
