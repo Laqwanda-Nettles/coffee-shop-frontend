@@ -5,7 +5,17 @@ import Footer from "@/components/Footer";
 
 export default function ProductsPage() {
   const productsJSX = products.map((product) => {
-    return <ProductCard key={product._id} product={product} />;
+    function handleAddToCart() {
+      alert("Added Item to Cart: " + product.name);
+    }
+
+    return (
+      <ProductCard
+        key={product._id}
+        product={product}
+        handleClick={handleAddToCart}
+      />
+    );
   });
 
   return (
