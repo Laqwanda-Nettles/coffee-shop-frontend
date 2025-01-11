@@ -16,8 +16,12 @@ export default function ProductPage() {
   return (
     <>
       <Navbar title={"Jazzed Up Coffee"} />
-      <h1>Product Page for product &#35; {id}</h1>
-      <ProductCard product={product} handleClick={handleAddToCart} />
+      <div className="flex flex-col items-center m-4 gap-4">
+        <h1 className="text-4xl font-bold text-primary text-center mb-4">
+          Product Page for product &#35; {id}
+        </h1>
+        <ProductCard product={product} handleClick={handleAddToCart} />
+      </div>
       <Footer info={"Jazzed Up Coffee"} />
     </>
   );
