@@ -1,17 +1,24 @@
 import PropTypes from "prop-types";
+import Button from "./Button";
 
-export default function ProductCard({ img, title, description }) {
+export default function ProductCard({ product, handleClick }) {
   return (
-    <>
-      <div>Product Component {title}</div>
-      <div>{img}</div>
-      <div>{description}</div>
-    </>
+    <div className="card bg-white w-96 shadow-lg">
+      <figure className="px-10 pt-10">
+        <img src={product.imageUrl} alt={product.name} className="rounded-xl" />
+      </figure>
+      <div className="card-body items-center text-center">
+        <h2 className="card-title">{product.name}</h2>
+        <p>{product.description}</p>
+        <p className="text-lg font-semibold">{product.price}</p>
+        <div className="card-actions">
+          <Button label={"Add to Cart"} handleClick={handleClick} />
+        </div>
+      </div>
+    </div>
   );
 }
 
 ProductCard.propTypes = {
-  title: PropTypes.string.isRequired,
-  img: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  product: PropTypes.object.isRequired,
 };

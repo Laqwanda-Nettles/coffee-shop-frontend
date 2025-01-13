@@ -1,8 +1,15 @@
 import PropTypes from "prop-types";
 
-export default function Button({ label }) {
+export default function Button({
+  label,
+  handleClick,
+  variant = "btn-primary",
+}) {
   return (
-    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+    <button
+      onClick={handleClick}
+      className={`btn ${variant} shadow-md shadow-secondary-content hover:scale-105 duration-300`}
+    >
       {label}
     </button>
   );
@@ -10,4 +17,6 @@ export default function Button({ label }) {
 
 Button.propTypes = {
   label: PropTypes.string.isRequired,
+  handleClick: PropTypes.func.isRequired,
+  variant: PropTypes.string,
 };

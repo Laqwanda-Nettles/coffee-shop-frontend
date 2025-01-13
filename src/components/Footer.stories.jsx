@@ -1,13 +1,13 @@
-import Navbar from './Navbar';
+import Footer from './Footer';
 
 const meta = {
-  component: Navbar,
+  component: Footer,
 };
 
 export default meta;
 
 export const Default = {
   args: {
-    title: "Jazzed Up Coffee"
+    info: "Jazzed Up Coffee"
   }
 };
