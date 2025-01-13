@@ -296,6 +296,14 @@ I like to work on what I call my global components first (Navbar, Footer, Button
 
 ![Checkout](image-7.png)
 
+### SignUp Page
+
+![SignUp](image-9.png)
+
+### SignIn Page
+
+![SignIn](image-10.png)
+
 ### Cart Preview
 
 Added a cart preview component to the navbar.
