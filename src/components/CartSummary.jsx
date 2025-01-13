@@ -1,7 +1,7 @@
 export default function CartSummary() {
   return (
     <div className="px-6 mx-5">
-      <div className="text-3xl font-semibold text-center mb-4">
+      <div className="text-2xl font-semibold text-center mt-2 mb-4">
         <h2>Order Summary</h2>
       </div>
       <table className="table text-xl">
