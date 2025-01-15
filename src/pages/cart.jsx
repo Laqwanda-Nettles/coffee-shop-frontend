@@ -1,24 +1,42 @@
+import { useState, useEffect } from "react";
 import CartItem from "@/components/CartItem";
-import cart from "../mocks/cart.json";
+//import cartData from "../mocks/cart.json";
 import Button from "@/components/Button";
 import { useRouter } from "next/router";
+import { loadCartFromLocalStorage, removeItemFromCart } from "@/utils";
 
 export default function Cart() {
+  const [cart, setCart] = useState([]);
   const router = useRouter();
+
+  useEffect(() => {
+    const cartData = loadCartFromLocalStorage();
+    setCart(cartData);
+  }, []);
 
   function handleCheckout() {
     alert("Checkout button clicked!");
     router.push("/checkout");
   }
 
-  const items = cart.products;
-  const cartItemsJSX = items.map((item) => {
-    function removeCartItem() {
-      alert("You clicked to remove: " + item.name);
-    }
+  function removeCartItem(itemId) {
+    alert("You clicked to remove item ID: " + itemId);
+    const updatedCart = removeItemFromCart(itemId);
+    setCart(updatedCart);
+  }
+
+  //const items = cart.products;
+  const cartItemsJSX = cart.map((item) => {
+    // function removeCartItem() {
+    //   alert("You clicked to remove: " + item.name);
+    // }
 
     return (
-      <CartItem key={item._id} product={item} handleClick={removeCartItem} />
+      <CartItem
+        key={item._id}
+        product={item}
+        handleClick={() => removeCartItem(item._id)}
+      />
     );
   });
   return (
