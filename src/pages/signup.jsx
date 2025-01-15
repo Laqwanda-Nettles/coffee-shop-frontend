@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import SignupForm from "@/components/SignupForm";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Link from "next/link";
 
 export default function Signup() {
   const router = useRouter();
@@ -30,6 +31,14 @@ export default function Signup() {
           </div>
           <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl"></div>
           <SignupForm buttonLabel="Sign Up" handleSignup={handleSignup} />
+          <div className="text-neutral-content text-lg">
+            <p>
+              Already have an account?{" "}
+              <Link href="/signin" className="text-info italic font-semibold">
+                Login In
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
 
