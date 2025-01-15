@@ -42,10 +42,10 @@ export default function Navbar({ title }) {
             className="menu menu-sm dropdown-content bg-base-100 text-secondary-content rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
             <li>
-              <Link href="#">Home</Link>
+              <Link href="/">Home</Link>
             </li>
             <li>
-              <Link href="#">Products</Link>
+              <Link href="/products">Products</Link>
             </li>
             <li>
               <Link href="#">About</Link>
