@@ -23,7 +23,7 @@ function usePasswordInput() {
     }
     setPasswordValue(e.target.value);
   };
-  return { passwordValue, passwordIsValid, onPasswordChange };
+  return { passwordValue, passwordIsValid, onPasswordChange, setPasswordValue };
 }
 
 //check email format
@@ -44,14 +44,14 @@ function useEmailInput() {
       setError("");
     }
   };
-  return { emailValue, error, onEmailChange };
+  return { emailValue, error, onEmailChange, setEmailValue };
 }
 
 export default function SignupForm({ buttonLabel, handleSignup }) {
-  const { passwordValue, passwordIsValid, onPasswordChange } =
+  const { passwordValue, passwordIsValid, onPasswordChange, setPasswordValue } =
     usePasswordInput();
   const [nameValue, setNameValue] = useState("");
-  const { emailValue, error, onEmailChange } = useEmailInput();
+  const { emailValue, error, onEmailChange, setEmailValue } = useEmailInput();
 
   //form submit function
   function handleSubmit(e) {
