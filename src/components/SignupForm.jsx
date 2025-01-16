@@ -11,18 +11,47 @@ function checkPassword(password) {
   }
 }
 
+//passwork hook
+function usePasswordInput() {
+  const [passwordValue, setPasswordValue] = useState("");
+  const [passwordIsValid, setPasswordIsValid] = useState(false);
+  const onPasswordChange = (e) => {
+    if (checkPassword(e.target.value)) {
+      setPasswordIsValid(true);
+    } else {
+      setPasswordIsValid(false);
+    }
+    setPasswordValue(e.target.value);
+  };
+  return { passwordValue, passwordIsValid, onPasswordChange };
+}
+
 //check email format
 const checkEmail = (email) => {
   const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
   return emailPattern.test(email);
 };
 
-export default function SignupForm({ buttonLabel, handleSignup }) {
-  const [passwordValue, setPasswordValue] = useState("");
-  const [passwordIsValid, setPasswordIsValid] = useState(false);
-  const [nameValue, setNameValue] = useState("");
+//email hook
+function useEmailInput() {
   const [emailValue, setEmailValue] = useState("");
   const [error, setError] = useState("");
+  const onEmailChange = (e) => {
+    setEmailValue(e.target.value);
+    if (!checkEmail(emailValue)) {
+      setError("Invalid email format.");
+    } else {
+      setError("");
+    }
+  };
+  return { emailValue, error, onEmailChange };
+}
+
+export default function SignupForm({ buttonLabel, handleSignup }) {
+  const { passwordValue, passwordIsValid, onPasswordChange } =
+    usePasswordInput();
+  const [nameValue, setNameValue] = useState("");
+  const { emailValue, error, onEmailChange } = useEmailInput();
 
   //form submit function
   function handleSubmit(e) {
@@ -72,14 +101,7 @@ export default function SignupForm({ buttonLabel, handleSignup }) {
           className="grow"
           placeholder="Email"
           value={emailValue}
-          onChange={(e) => {
-            setEmailValue(e.target.value);
-            if (!checkEmail(emailValue)) {
-              setError("Invalid email format.");
-            } else {
-              setError("");
-            }
-          }}
+          onChange={onEmailChange}
         />
       </label>
       {error && <p className="text-xs text-red-400">{error}</p>}
@@ -102,14 +124,7 @@ export default function SignupForm({ buttonLabel, handleSignup }) {
           className="grow"
           placeholder="Password"
           value={passwordValue}
-          onChange={(e) => {
-            if (checkPassword(e.target.value)) {
-              setPasswordIsValid(true);
-            } else {
-              setPasswordIsValid(false);
-            }
-            setPasswordValue(e.target.value);
-          }}
+          onChange={onPasswordChange}
         />
       </label>
       <div
