@@ -1,11 +1,23 @@
+import { useState } from "react";
 import Button from "./Button";
 
 export default function CheckoutForm({ handleClick }) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [cardDetails, setCardDetails] = useState("");
+
   function handleSubmit(e) {
     e.preventDefault();
-    const name = e.target.name.value;
-    const email = e.target.email.value;
-    const address = e.target.address.value;
+    // const name = e.target.name.value;
+    // const email = e.target.email.value;
+    // const address = e.target.address.value;
+
+    //reset on submit
+    setName("");
+    setEmail("");
+    setAddress("");
+    setCardDetails("");
 
     handleClick(name, email, address);
   }
@@ -26,6 +38,10 @@ export default function CheckoutForm({ handleClick }) {
             placeholder="John Doe"
             className="input input-bordered w-full"
             required
+            value={name}
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
           />
         </div>
 
@@ -41,6 +57,10 @@ export default function CheckoutForm({ handleClick }) {
             placeholder="example@email.com"
             className="input input-bordered w-full"
             required
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
           />
         </div>
 
@@ -56,6 +76,8 @@ export default function CheckoutForm({ handleClick }) {
             placeholder="1234 Street Name, City"
             className="input input-bordered w-full"
             required
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
           />
         </div>
 
@@ -71,6 +93,8 @@ export default function CheckoutForm({ handleClick }) {
             placeholder="1234 5678 9012 3456"
             className="input input-bordered w-full"
             required
+            value={cardDetails}
+            onChange={(e) => setCardDetails(e.target.value)}
           />
         </div>
 
