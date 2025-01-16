@@ -1,14 +1,23 @@
 import Link from "next/link";
 import PropTypes from "prop-types";
-import cart from "../mocks/cart.json";
+//import cart from "../mocks/cart.json";
 import CartPreview from "./CartPreview";
 import { useRouter } from "next/router";
 import Button from "./Button";
+import { useEffect, useState } from "react";
+import { loadCartFromLocalStorage } from "@/utils";
 
 export default function Navbar({ title }) {
+  const [cart, setCart] = useState([]);
   const router = useRouter();
-  const items = cart.products;
-  const cartPreviewJSX = items.map((item) => {
+
+  useEffect(() => {
+    const cartData = loadCartFromLocalStorage();
+    setCart(cartData);
+  }, []);
+  //const items = cart.products;
+
+  const cartPreviewJSX = cart.map((item) => {
     return <CartPreview key={item._id} product={item} />;
   });
 
