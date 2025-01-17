@@ -15,14 +15,8 @@ export default function Navbar({ title }) {
     const cartData = loadCartFromLocalStorage();
     setCart(cartData);
   }, []);
-  //const items = cart.products;
 
-  const cartPreviewJSX = cart.map((item) => {
-    return <CartPreview key={item._id} product={item} />;
-  });
-
-  function viewCart() {
-    alert("View Cart button clicked!");
+  function handleViewCart() {
     router.push("/cart");
   }
 
@@ -93,11 +87,13 @@ export default function Navbar({ title }) {
             className="card card-compact dropdown-content bg-base-100 text-base-content z-[1] mt-3 w-52 shadow"
           >
             <div className="card-body">
-              {cartPreviewJSX}
+              {cart.map((item) => (
+                <CartPreview key={item._id} product={item} />
+              ))}
               <div className="card-actions">
                 <Button
                   label={"View Cart"}
-                  handleClick={viewCart}
+                  handleClick={handleViewCart}
                   variant="btn-primary btn-block"
                 />
               </div>
