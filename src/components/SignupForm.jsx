@@ -28,6 +28,14 @@ export default function SignupForm({ buttonLabel, handleSignup }) {
   function handleSubmit(e) {
     e.preventDefault();
 
+    const user = {
+      name: nameValue,
+      email: emailValue,
+      password: passwordValue,
+    };
+
+    handleSignup(user);
+
     //reset after submit
     setPasswordValue("");
     setNameValue("");
@@ -119,7 +127,7 @@ export default function SignupForm({ buttonLabel, handleSignup }) {
       >
         Password must be at least 8 characters long.
       </div>
-      <Button label={buttonLabel} handleClick={handleSignup} />
+      <Button label={buttonLabel} />
     </form>
   );
 }
