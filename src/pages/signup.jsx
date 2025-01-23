@@ -3,13 +3,38 @@ import SignupForm from "@/components/SignupForm";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Link from "next/link";
+import { useState } from "react";
+
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
+const registerURL = `${BACKEND_URL}/auth/register`;
 
 export default function Signup() {
   const router = useRouter();
-  function handleSignup() {
-    alert("Sign up clicked!");
-    router.push("/signup");
+  const [error, setError] = useState("");
+
+  async function handleSignup(user) {
+    alert("Sign up clicked!" + user.name);
+    user.role = "admin";
+
+    // fetch POST /register
+    const response = await fetch(registerURL, {
+      method: "POST",
+      body: JSON.stringify(user),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+
+    if (data.error) {
+      setError(data.error);
+    } else {
+      router.push("/signin");
+    }
   }
+
   return (
     <div>
       <Navbar title={"Jazzed Up Coffee"} />
@@ -30,15 +55,18 @@ export default function Signup() {
             </p>
           </div>
           <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl"></div>
-          <SignupForm buttonLabel="Sign Up" handleSignup={handleSignup} />
-          <div className="text-neutral-content text-lg">
-            <p>
-              Already have an account?{" "}
-              <Link href="/signin" className="text-info italic font-semibold">
-                Login In
-              </Link>
-            </p>
+          <div className="flex flex-col gap-5">
+            <SignupForm buttonLabel="Sign Up" handleSignup={handleSignup} />
+            <div className="text-neutral-content text-lg">
+              <p>
+                Already have an account?{" "}
+                <Link href="/signin" className="text-info italic font-semibold">
+                  Login In
+                </Link>
+              </p>
+            </div>
           </div>
+          {error && <p>{error}</p>}
         </div>
       </div>
 
