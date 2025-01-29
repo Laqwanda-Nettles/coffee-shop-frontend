@@ -15,10 +15,10 @@ export default function ProductCard({ product, handleClick }) {
       <div className="card-body items-center text-center">
         <h2 className="card-title">{product.name}</h2>
         <p>{product.description}</p>
-        <p className="text-lg font-semibold">{product.price}</p>
+        <p className="text-lg font-semibold">${product.price}</p>
         {currentPath === "/products" && (
           <Link
-            href={`products/${product.id}`}
+            href={`products/${product._id}`}
             className="italic text-info text-sm font-semibold"
           >
             View Item

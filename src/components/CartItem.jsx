@@ -10,7 +10,7 @@ export default function CartItem({ product, handleClick }) {
       <div className="card-body">
         <h2 className="card-title font-semibold text-2xl">{product.name}</h2>
         <p className="italic text-gray-700 text-lg">{product.category}</p>
-        <p className="text-xl font-semibold">{product.price}</p>
+        <p className="text-xl font-semibold">${product.price}</p>
         <div className="card-actions justify-end">
           <Button
             className="btn btn-outline btn-error"
