@@ -51,11 +51,16 @@ export default function ProductsPage() {
         deleteProduct(product);
       }
 
+      function handleProductEdit() {
+        router.push(`/admin/products/${product._id}`);
+      }
+
       return (
         <AdminProductCard
           key={product._id}
           product={product}
           handleClick={handleDeleteProduct}
+          secondaryHandleClick={handleProductEdit}
         />
       );
     })
