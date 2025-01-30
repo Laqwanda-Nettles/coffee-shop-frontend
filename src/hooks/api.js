@@ -1,50 +1,50 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-export function useFetch(url, intialState) {
+export function useFetch(url, intialState = []) {
   const [data, setData] = useState(intialState);
-  const [fetchError, setFetchError] = useState(false);
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   //fetch all products
   const fetchData = async () => {
+    setLoading(true);
+    setError(null);
+
     try {
-      setLoading(true);
       const token = localStorage.getItem("token");
 
       // If token doesn't exist or is expired, redirect to login
       if (!token) {
-        console.error("No token found in localStorage");
-        setFetchError(true);
-        setLoading(false);
+        console.error("No token found, redirecting to login.");
         router.push("/signin"); // Redirect to login page
         return;
       }
 
-      const result = await fetch(url, {
+      const response = await fetch(url, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       });
 
-      if (!result.ok) {
-        console.error(
-          `Fetch failed with status: ${result.status} - ${result.statusText}`
-        );
+      if (!response.ok) {
+        const errorMessage = `Fetch error ${response.status}: ${response.statusText}`;
 
         //Handle expired token (401 Unauthorized)
         if (result.status === 401) {
-          console.error("Token expired or unauthorized");
+          console.error("Unauthorized: Token expired.");
           localStorage.removeItem("token"); // Remove expired token
-          setFetchError(true);
+
           router.push("/signin"); // Then redirect to login page
         } else {
-          setFetchError(true); //For other errors
+          console.error(errorMessage);
         }
+
+        throw new Error(errorMessage);
       } else {
-        const productData = await result.json();
+        const productData = await response.json();
 
         // Check if the response contains the expected array
         if (Array.isArray(productData)) {
@@ -54,13 +54,13 @@ export function useFetch(url, intialState) {
         } else {
           console.error("Unexpected API response format:", productData);
           setData([]); // Set to an empty array if data isn't in expected format
-          setFetchError(true);
+          setError(true);
         }
-        setFetchError(false);
+        setError(false);
       }
     } catch (error) {
       console.error("Failed to fetch products: ", error);
-      setFetchError(true);
+      setError(true);
     } finally {
       setLoading(false);
     }
@@ -70,5 +70,5 @@ export function useFetch(url, intialState) {
     fetchData();
   }, [url]);
 
-  return [fetchError, loading, data, fetchData];
+  return [error, loading, data];
 }
