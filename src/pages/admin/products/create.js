@@ -2,10 +2,10 @@ import Button from "@/components/Button";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { useState } from "react";
-import useAuth from "@/hooks/auth";
+//import useAuth from "@/hooks/auth";
+import { useAuth } from "@/context/AuthContext";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
-console.log("Backend URL: ", BACKEND_URL);
 const createUrl = `${BACKEND_URL}/products`;
 
 export default function CreateProduct() {
@@ -17,25 +17,13 @@ export default function CreateProduct() {
   const [image, setImage] = useState(null);
 
   const { token } = useAuth();
-  console.log("Token being sent: ", token);
 
   //form submit function
   function handleSubmit(e) {
     e.preventDefault();
 
     alert("Form Submitted! Product added: " + name);
-    // const newproduct = {
-    //   name,
-    //   description,
-    //   category,
-    //   price: parseFloat(price),
-    //   stock: parseInt(stock, 10),
-    //   image,
-    // };
 
-    // console.log("Submitting product with values:");
-    // console.log(newproduct);
-    // createProduct(newproduct);
     const formData = new FormData();
     formData.append("name", name.trim());
     formData.append("description", description.trim());
@@ -60,11 +48,9 @@ export default function CreateProduct() {
     try {
       const response = await fetch(createUrl, {
         method: "POST",
-        //body: JSON.stringify(product),
         body: product,
         headers: {
           Authorization: `Bearer ${token}`,
-          //"Content-Type": "application/json",
         },
       });
 
