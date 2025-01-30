@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import CartItem from "@/components/CartItem";
-//import cartData from "../mocks/cart.json";
 import Button from "@/components/Button";
 import { useRouter } from "next/router";
 import { loadCartFromLocalStorage, removeItemFromCart } from "@/utils";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export default function Cart() {
   const [cart, setCart] = useState([]);
@@ -15,7 +16,6 @@ export default function Cart() {
   }, []);
 
   function handleCheckout() {
-    alert("Checkout button clicked!");
     router.push("/checkout");
   }
 
@@ -25,12 +25,7 @@ export default function Cart() {
     setCart(updatedCart);
   }
 
-  //const items = cart.products;
   const cartItemsJSX = cart.map((item) => {
-    // function removeCartItem() {
-    //   alert("You clicked to remove: " + item.name);
-    // }
-
     return (
       <CartItem
         key={item._id}
@@ -41,6 +36,7 @@ export default function Cart() {
   });
   return (
     <>
+      <Navbar title={"Jazzed Up Coffee"} />
       <div className="mt-4 mb-5 border-b-2 border-neutral pb-4">
         <h1 className="text-center text-4xl text-primary font-bold">
           Shopping Cart
@@ -56,6 +52,7 @@ export default function Cart() {
           variant="btn-info btn-wide"
         />
       </div>
+      <Footer info={"Jazzed Up Coffee"} />
     </>
   );
 }
