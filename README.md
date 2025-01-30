@@ -55,15 +55,15 @@ If you would like to contribute to this project, please follow these steps:
 
 ### Navbar (Storybook, DaisyUi, Custom CSS)
 
-![alt text](image.png)
+![alt text](/public/screenshots/image.png)
 
 ### Button (Storybook, Tailwind)
 
-![alt text](image-1.png)
+![alt text](/public/screenshots/image-1.png)
 
 ### Test Button (Storybook, DaisyUi)
 
-![alt text](image-2.png)
+![alt text](/public/screenshots/image-2.png)
 
 ## Attribution
 
@@ -278,37 +278,37 @@ I like to work on what I call my global components first (Navbar, Footer, Button
 
 ### Home Page
 
-![Home Page](image-3.png)
+![Home Page](/public/screenshots/image-3.png)
 
 ### Product List Page
 
-![Products Page](image-4.png)
+![Products Page](/public/screenshots/image-4.png)
 
 ### Product Page
 
-![Product [id] page](image-5.png)
+![Product [id] page](/public/screenshots/image-5.png)
 
 ### Cart Page
 
-![Shopping Cart](image-6.png)
+![Shopping Cart](/public/screenshots/image-6.png)
 
 ### Checkout Page
 
-![Checkout](image-7.png)
+![Checkout](/public/screenshots/image-7.png)
 
 ### SignUp Page
 
-![SignUp](image-9.png)
+![SignUp](/public/screenshots/image-9.png)
 
 ### SignIn Page
 
-![SignIn](image-10.png)
+![SignIn](/public/screenshots/image-10.png)
 
 ### Cart Preview
 
 Added a cart preview component to the navbar.
 
-![Navbar with CartPreview component](image-8.png)
+![Navbar with CartPreview component](/public/screenshots/image-8.png)
 
 ---
 
