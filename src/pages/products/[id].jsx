@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Loading from "@/components/Loading";
 import { useEffect, useState } from "react";
+import { loadCartFromLocalStorage, saveCartToLocalStorage } from "@/utils";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -14,6 +15,18 @@ export default function ProductPage() {
   const [product, setProduct] = useState({});
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [cart, setCart] = useState([]);
+
+  useEffect(() => {
+    const cartData = loadCartFromLocalStorage();
+    setCart(cartData);
+  }, []);
+
+  function addProductToCart(product) {
+    const newCart = [...cart, product];
+    setCart(newCart);
+    saveCartToLocalStorage(newCart);
+  }
 
   const url = `${BACKEND_URL}/products/${id}`;
 
@@ -44,6 +57,7 @@ export default function ProductPage() {
       return;
     }
     alert("Added Item to Cart: " + product.name);
+    addProductToCart(product);
   }
 
   return (
