@@ -6,10 +6,12 @@ import { useRouter } from "next/router";
 import Button from "./Button";
 import { useEffect, useState } from "react";
 import { loadCartFromLocalStorage } from "@/utils";
+import useAuth from "@/hooks/auth";
 
-export default function Navbar({ title }) {
+export default function Navbar({ title, menuJSX }) {
   const [cart, setCart] = useState([]);
   const router = useRouter();
+  const { user, isAuthenticated, clearAuth } = useAuth();
 
   useEffect(() => {
     const cartData = loadCartFromLocalStorage();
@@ -18,6 +20,11 @@ export default function Navbar({ title }) {
 
   function handleViewCart() {
     router.push("/cart");
+  }
+
+  function handleLogout() {
+    clearAuth();
+    router.push("/");
   }
 
   return (
@@ -53,6 +60,18 @@ export default function Navbar({ title }) {
             <li>
               <Link href="#">About</Link>
             </li>
+
+            {isAuthenticated && user?.role === "admin" && (
+              <>
+                <li className="menu-title">Admin</li>
+                <li>
+                  <Link href="/admin/products">Manage Products</Link>
+                </li>
+                <li>
+                  <Link href="/admin/products/create">Create Product</Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </div>
@@ -130,18 +149,20 @@ export default function Navbar({ title }) {
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 text-base-content rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
-            <li>
-              <Link href="#" className="justify-between">
-                Account
-                <span className="badge">New</span>
-              </Link>
-            </li>
-            <li>
-              <Link href="/signin">Sign In</Link>
-            </li>
-            <li>
-              <Link href="#">Logout</Link>
-            </li>
+            {isAuthenticated ? (
+              <>
+                <li>
+                  <Link href="/account">Account</Link>
+                </li>
+                <li>
+                  <button onClick={handleLogout}>Logout</button>
+                </li>
+              </>
+            ) : (
+              <li>
+                <Link href="/signin">Sign In</Link>
+              </li>
+            )}
           </ul>
         </div>
       </div>
