@@ -332,3 +332,133 @@ Day 2 focused on:
 - Breaking layouts into reusable components.
 - Verifying components in Storybook.
 - Preparing for further enhancements in functionality and design.
+
+# Day 3 & 4 - Coffee Frontend Project
+
+## Overview
+
+On Days 3 and 4 of the Coffee Frontend Project, I focused on connecting the frontend to the backend by setting up environment variables, handling errors, and implementing form validation. Additionally, I introduced utility functions to manage local storage for user data, products, and the cart.
+
+## Tasks Completed
+
+### 1. Setting Up Environment Variables
+
+To facilitate communication between the frontend and backend, I configured environment variables:
+
+**Created `.env.local` file:**
+
+```plaintext
+NEXT_PUBLIC_BACKEND_URL=http://localhost:3000
+NEXT_PUBLIC_BACKEND_URL_PROD=https://api.onrender.com
+```
+
+These variables help in switching between development and production environments seamlessly.
+
+### 2. Implemented Error Handling and Validation in Forms
+
+#### Signup Form Enhancements:
+
+- Added validation for email format and password length.
+- Used `PropTypes` to enforce correct prop types.
+- Displayed error messages dynamically.
+
+**Example Code for Validation:**
+
+```javascript
+// Check if password is > 8 characters
+function checkPassword(password) {
+  return password.length > 8;
+}
+
+// Validate email format
+const checkEmail = (email) => {
+  const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  return emailPattern.test(email);
+};
+```
+
+#### Signup Form Component:
+
+```javascript
+export default function SignupForm({ buttonLabel, handleSignup }) {
+  const [passwordValue, setPasswordValue] = useState("");
+  const [passwordIsValid, setPasswordIsValid] = useState(false);
+  const [nameValue, setNameValue] = useState("");
+  const [emailValue, setEmailValue] = useState("");
+  const [error, setError] = useState("");
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    if (!checkEmail(emailValue)) {
+      setError("Invalid email format.");
+      return;
+    }
+
+    const user = {
+      name: nameValue,
+      email: emailValue,
+      password: passwordValue,
+    };
+    handleSignup(user);
+
+    // Reset form
+    setPasswordValue("");
+    setNameValue("");
+    setEmailValue("");
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="form flex flex-col gap-4">
+      {/* Input Fields for Name, Email, and Password */}
+      {/* Error Handling Display */}
+      {error && <p className="text-xs text-red-400">{error}</p>}
+      <Button label={buttonLabel} />
+    </form>
+  );
+}
+```
+
+### 3. Created Utility Functions for Local Storage
+
+To persist data across sessions, I added utility functions in `src/util/index.js` for handling local storage.
+
+#### Utility Functions Implemented:
+
+- **Load Data from Local Storage:**
+  ```javascript
+  export const loadProductsFromLocalStorage = () => {
+    const products = localStorage.getItem("products");
+    return products ? JSON.parse(products) : [];
+  };
+  ```
+- **Save Data to Local Storage:**
+  ```javascript
+  export const saveUserToLocalStorage = (user) => {
+    localStorage.setItem("user", JSON.stringify(user));
+  };
+  ```
+- **Remove Item from Cart:**
+  ```javascript
+  export const removeItemFromCart = (itemId) => {
+    const cart = loadCartFromLocalStorage();
+    const updatedCart = cart.filter((item) => item._id !== itemId);
+    saveCartToLocalStorage(updatedCart);
+    return updatedCart;
+  };
+  ```
+
+### 4. Implemented Cart Functionality
+
+- **Added functionality to load, save, and update cart items in local storage.**
+- **Implemented a cart page to display items and allow quantity adjustments.**
+- **Used context API to manage global cart state.**
+
+## Summary
+
+- **Connected the frontend to the backend** using `.env.local`.
+- **Added form validation and error handling** for better user experience.
+- **Implemented utility functions** to manage user, product, and cart data in local storage.
+- **Introduced cart management functionality** using local storage and Context API.
+
+This setup ensures a smoother authentication process and a seamless user experience in the Coffee Frontend Project.
