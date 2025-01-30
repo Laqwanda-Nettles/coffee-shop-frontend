@@ -1,12 +1,12 @@
 import Link from "next/link";
 import PropTypes from "prop-types";
-//import cart from "../mocks/cart.json";
 import CartPreview from "./CartPreview";
 import { useRouter } from "next/router";
 import Button from "./Button";
 import { useEffect, useState } from "react";
 import { loadCartFromLocalStorage } from "@/utils";
-import useAuth from "@/hooks/auth";
+//import useAuth from "@/hooks/auth";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Navbar({ title, menuJSX }) {
   const [cart, setCart] = useState([]);
