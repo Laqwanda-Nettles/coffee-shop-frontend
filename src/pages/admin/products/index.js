@@ -5,7 +5,8 @@ import { useRouter } from "next/router";
 import Loading from "@/components/Loading";
 import { useFetch } from "@/hooks/api";
 import AdminProductCard from "@/components/AdminProductCard";
-import useAuth from "@/hooks/auth";
+//import useAuth from "@/hooks/auth";
+import { useAuth } from "@/context/AuthContext";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -17,7 +18,6 @@ export default function ProductsPage() {
   const [productsFetchError, loading, products] = useFetch(url, []);
 
   const { token } = useAuth();
-  console.log("Token being sent: ", token);
 
   useEffect(() => {
     setUrl(`${BACKEND_URL}/products`);
