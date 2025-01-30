@@ -1,4 +1,23 @@
+import { loadCartFromLocalStorage } from "@/utils";
+import { useEffect, useState } from "react";
+
 export default function CartSummary() {
+  const [cart, setCart] = useState([]);
+  const salesTaxRate = 0.0445;
+
+  useEffect(() => {
+    const cartData = loadCartFromLocalStorage();
+    setCart(cartData || []);
+  }, []);
+
+  // calculate subtotal by summing up item prices
+  const subtotal = cart.reduce((sum, item) => +item.price, 0);
+
+  // calculate tax
+  const tax = subtotal * salesTaxRate;
+
+  // calculate total
+  const total = subtotal + tax;
   return (
     <div className="px-6 mx-5">
       <div className="text-2xl font-semibold text-center mt-2 mb-4">
@@ -8,21 +27,21 @@ export default function CartSummary() {
         <tbody>
           <tr>
             <td>Sub total</td>
-            <td>$7.00</td>
+            <td>${subtotal.toFixed(2)}</td>
           </tr>
           <tr>
             <td>Discount</td>
             <td>$0.00</td>
           </tr>
           <tr>
-            <td>Tax</td>
-            <td>$2.54</td>
+            <td>Tax (4.45%)</td>
+            <td>${tax.toFixed(2)}</td>
           </tr>
         </tbody>
         <tfoot className="text-2xl">
           <tr>
             <td>Total</td>
-            <td>$9.54</td>
+            <td>${total.toFixed(2)}</td>
           </tr>
         </tfoot>
       </table>
