@@ -1,5 +1,4 @@
 import ProductCard from "@/components/ProductCard";
-//import data from "../../mocks/products.json";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useEffect, useState } from "react";
@@ -15,10 +14,7 @@ export default function ProductsPage() {
   const { category } = router.query;
 
   const [url, setUrl] = useState(`${BACKEND_URL}/products`);
-  const [productsFetchError, loading, products, fetchProducts] = useFetch(
-    url,
-    []
-  );
+  const [productsFetchError, loading, products] = useFetch(url, []);
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
@@ -30,29 +26,6 @@ export default function ProductsPage() {
   useEffect(() => {
     setUrl(`${BACKEND_URL}/products`);
   }, [category]);
-
-  // fetch products by category
-  // const fetchProductsByCategory = async (category) => {
-  //   try {
-  //     const url = `${BACKEND_URL}/products?category=${category}`;
-  //     const result = await fetch(url);
-  //     const filterProductData = await result.json();
-  //     setProducts(filterProductData);
-  //   } catch (error) {
-  //     console.error("Failed to fetch products by category: ", error);
-  //     setProductsFetchError(true);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (!category) {
-  //     fetchProducts();
-  //   } else {
-  //     fetchProductsByCategory(category);
-  //   }
-  // }, [category]);
 
   function addProductToCart(product) {
     const newCart = [...cart, product];
@@ -87,8 +60,14 @@ export default function ProductsPage() {
       <div className="breadcrumbs max-w-xs text-sm m-4">
         <ul className="cursor-pointer font-semibold">
           <li
+            onClick={() => setUrl(`${BACKEND_URL}/products?limit=50`)}
+            className={`hover:text-secondary active:border-b-4 `}
+          >
+            All
+          </li>
+          <li
             onClick={() => setUrl(`${BACKEND_URL}/products?category=beverages`)}
-            className={`hover:text-secondary`}
+            className={`hover:text-secondary active:border-b-4 `}
           >
             Beverages
           </li>
@@ -104,11 +83,9 @@ export default function ProductsPage() {
           >
             Merchandise
           </li>
-          <li onClick={() => setUrl(`${BACKEND_URL}/products?category=books`)}>
-            Books
-          </li>
         </ul>
       </div>
+
       {productsFetchError ? (
         <p className="text-red-400 text-lg text-center">
           Error fetching products. Please try again later.
