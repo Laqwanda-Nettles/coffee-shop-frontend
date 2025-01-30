@@ -11,7 +11,8 @@ const loginURL = `${BACKEND_URL}/auth/login`;
 
 export default function Signin() {
   const router = useRouter();
-  const [error, setError] = useState("");
+  const [error, setError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   async function handleSignIn(email, password) {
     alert("Sign In with: " + email);
@@ -31,7 +32,11 @@ export default function Signin() {
 
     if (data.token) {
       localStorage.setItem("token", data.token);
+      setError(false);
       router.push("/products");
+    } else {
+      setError(true);
+      setErrorMsg(data.error);
     }
 
     if (data.user) {
@@ -59,6 +64,11 @@ export default function Signin() {
             </p>
           </div>
           <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl"></div>
+          {error && (
+            <p className="text-red-500 text-xl font-semibold drop-shadow-md">
+              Error: {errorMsg}
+            </p>
+          )}
           <div className="flex flex-col gap-5">
             <LoginForm buttonLabel={"Login In"} handleLogin={handleSignIn} />
             <div className="text-neutral-content text-lg">
