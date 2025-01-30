@@ -21,7 +21,7 @@ export default function Loading() {
         </g>
       </svg>
       <span className="text-xl font-bold text-amber-900 animate-pulse">
-        Loading
+        Brewing
       </span>
     </div>
   );
