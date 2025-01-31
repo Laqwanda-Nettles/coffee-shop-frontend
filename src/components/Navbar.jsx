@@ -7,11 +7,14 @@ import { useEffect, useState } from "react";
 import { loadCartFromLocalStorage } from "@/utils";
 //import useAuth from "@/hooks/auth";
 import { useAuth } from "@/context/AuthContext";
+import { useAuth0 } from "@auth0/auth0-react";
+import LoginButton from "./LoginButton";
+import LogoutButton from "./LogoutButton";
 
 export default function Navbar({ title }) {
   const [cart, setCart] = useState([]);
   const router = useRouter();
-  const { user, isAuthenticated, clearAuth } = useAuth();
+  const { user, isAuthenticated, clearAuth } = useAuth0();
 
   useEffect(() => {
     const cartData = loadCartFromLocalStorage();
@@ -156,12 +159,14 @@ export default function Navbar({ title }) {
                   <Link href="/account">Account</Link>
                 </li>
                 <li>
-                  <button onClick={handleLogout}>Logout</button>
+                  {/* <button onClick={handleLogout}>Logout</button> */}
+                  <LogoutButton />
                 </li>
               </>
             ) : (
               <li>
-                <Link href="/signin">Sign In</Link>
+                {/* <Link href="/signin">Sign In</Link> */}
+                <LoginButton />
               </li>
             )}
           </ul>
