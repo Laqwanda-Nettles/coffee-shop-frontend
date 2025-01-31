@@ -8,7 +8,7 @@ import { loadCartFromLocalStorage } from "@/utils";
 //import useAuth from "@/hooks/auth";
 import { useAuth } from "@/context/AuthContext";
 
-export default function Navbar({ title, menuJSX }) {
+export default function Navbar({ title }) {
   const [cart, setCart] = useState([]);
   const router = useRouter();
   const { user, isAuthenticated, clearAuth } = useAuth();
@@ -151,6 +151,7 @@ export default function Navbar({ title, menuJSX }) {
           >
             {isAuthenticated ? (
               <>
+                <li className="menu-title">{`Hi, ${user.name}!`}</li>
                 <li>
                   <Link href="/account">Account</Link>
                 </li>
