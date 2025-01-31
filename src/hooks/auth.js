@@ -20,6 +20,7 @@ export default function useAuth() {
 
       if (storedUser) {
         setUser(JSON.parse(storedUser));
+        setIsAuthenticated(true);
       }
     } catch (error) {
       console.error("Error in useAuth hook: ", error);
