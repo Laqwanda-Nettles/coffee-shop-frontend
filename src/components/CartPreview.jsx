@@ -4,7 +4,7 @@ export default function CartPreview({ product }) {
   return (
     <table>
       <tbody>
-        <tr className="flex items-center gap-5">
+        <tr className="flex items-center gap-5" key={product._id}>
           <td>
             <div className="flex items-center gap-3">
               <div className="avatar">
@@ -14,10 +14,13 @@ export default function CartPreview({ product }) {
               </div>
               <div>
                 <div className="font-bold">{product.name}</div>
+                <div className="text-gray-500">x {product.quantity}</div>
               </div>
             </div>
           </td>
-          <td className="font-semibold text-success">{product.price}</td>
+          <td className="font-semibold text-success">
+            ${(product.price * product.quantity).toFixed(2)}
+          </td>
         </tr>
       </tbody>
     </table>
