@@ -3,56 +3,23 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { loadCartFromLocalStorage, saveCartToLocalStorage } from "@/utils";
 import Loading from "@/components/Loading";
 import { useFetch } from "@/hooks/api";
+import { useCart } from "@/context/CartContext";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export default function ProductsPage() {
   const router = useRouter();
   const { category } = router.query;
-
+  const { addProductToCart } = useCart();
   const [url, setUrl] = useState(`${BACKEND_URL}/products`);
   const [productsFetchError, loading, products] = useFetch(url, []);
-  const [cart, setCart] = useState([]);
-
-  useEffect(() => {
-    //load cart from local storage
-    const cartData = loadCartFromLocalStorage();
-    setCart(cartData);
-  }, []);
 
   useEffect(() => {
     setUrl(`${BACKEND_URL}/products`);
   }, [category]);
 
-  function addProductToCart(product) {
-    const newCart = [...cart, product];
-    setCart(newCart);
-    saveCartToLocalStorage(newCart);
-  }
-
-  console.log("Products data:", products);
-
-  const productsJSX = Array.isArray(products) ? (
-    products.map((product) => {
-      function handleAddToCart() {
-        alert("Added Item to Cart: " + product.name);
-        addProductToCart(product);
-      }
-
-      return (
-        <ProductCard
-          key={product._id}
-          product={product}
-          handleClick={handleAddToCart}
-        />
-      );
-    })
-  ) : (
-    <p className="text-center text-red-400">No products available.</p>
-  );
   return (
     <div>
       <Navbar title={"Jazzed Up Coffee"} />
@@ -97,10 +64,17 @@ export default function ProductsPage() {
         <Loading />
       ) : (
         <div className="flex flex-wrap justify-evenly items-center gap-5 m-4">
-          {productsJSX}
+          {products.map((product) => (
+            <ProductCard
+              key={product._id}
+              product={product}
+              handleClick={() => addProductToCart(product)}
+            />
+          ))}
         </div>
       )}
-      <Footer />
+      {/* {loading ? <Loading /> : { productsJSX }} */}
+      <Footer info={"Jazzed Up Coffee"} />
     </div>
   );
 }
