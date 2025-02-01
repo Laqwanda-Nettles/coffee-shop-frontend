@@ -3,20 +3,15 @@ import PropTypes from "prop-types";
 import CartPreview from "./CartPreview";
 import { useRouter } from "next/router";
 import Button from "./Button";
-import { useEffect, useState } from "react";
-import { loadCartFromLocalStorage } from "@/utils";
-//import useAuth from "@/hooks/auth";
 import { useAuth } from "@/context/AuthContext";
+import { useCart } from "@/context/CartContext";
 
 export default function Navbar({ title }) {
-  const [cart, setCart] = useState([]);
   const router = useRouter();
   const { user, isAuthenticated, clearAuth } = useAuth();
+  const { cart } = useCart();
 
-  useEffect(() => {
-    const cartData = loadCartFromLocalStorage();
-    setCart(cartData);
-  }, []);
+  const totalCartItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   function handleViewCart() {
     router.push("/cart");
@@ -86,7 +81,7 @@ export default function Navbar({ title }) {
             <div className="indicator">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
+                className="h-7 w-7"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -98,7 +93,10 @@ export default function Navbar({ title }) {
                   d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                 />
               </svg>
-              <span className="badge badge-sm badge-secondary indicator-item"></span>
+
+              <span className="badge badge-sm badge-secondary indicator-item">
+                {totalCartItems}
+              </span>
             </div>
           </div>
           <div
@@ -106,9 +104,13 @@ export default function Navbar({ title }) {
             className="card card-compact dropdown-content bg-base-100 text-base-content z-[1] mt-3 w-52 shadow"
           >
             <div className="card-body">
-              {cart.map((item) => (
-                <CartPreview key={item._id} product={item} />
-              ))}
+              {cart.length === 0 ? (
+                <p>Your cart is empty.</p>
+              ) : (
+                cart.map((item) => (
+                  <CartPreview key={item._id} product={item} />
+                ))
+              )}
               <div className="card-actions">
                 <Button
                   label={"View Cart"}
