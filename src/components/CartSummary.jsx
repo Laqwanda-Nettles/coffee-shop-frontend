@@ -11,7 +11,10 @@ export default function CartSummary() {
   }, []);
 
   // calculate subtotal by summing up item prices
-  const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
+  const subtotal = cart.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
 
   // calculate tax
   const tax = subtotal * salesTaxRate;
