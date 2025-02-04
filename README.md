@@ -728,6 +728,25 @@ async function createProduct(product) {
 }
 ```
 
+### Delete Product Functionality
+
+- Added a delete button to allow admins to remove products.
+- Sends a DELETE request to the backend with authentication headers.
+
+```javascript
+async function deleteProduct(productId) {
+  const response = await fetch(`${BACKEND_URL}/products/${productId}`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (response.ok) {
+    alert("Product deleted successfully");
+  } else {
+    alert("Failed to delete product");
+  }
+}
+```
+
 ## Screenshots
 
 ### Index Page (`admin/products/`)
@@ -745,6 +764,11 @@ async function createProduct(product) {
 ### Index Page After Edit (`admin/products/`)
 
 ![products page (admin) after edit](public/screenshots/image-14.png)
+
+### Delete Product Action
+
+![delete product (admin):bagel](public/screenshots/image-15.png)
+![delete success message](public/screenshots/image-16.png)
 
 ## Conclusion
 
