@@ -462,3 +462,290 @@ To persist data across sessions, I added utility functions in `src/util/index.js
 - **Introduced cart management functionality** using local storage and Context API.
 
 This setup ensures a smoother authentication process and a seamless user experience in the Coffee Frontend Project.
+
+# Coffee Shop Frontend - Part 5
+
+## Overview
+
+In this part of the Coffee Shop Frontend project, the focus was on creating and utilizing custom hooks for fetching data and managing authentication in the Sign-In and Sign-Up pages. The key custom hooks implemented include:
+
+- `useFetch` for fetching product data securely with authentication
+- `useAuth` for handling user authentication and session management
+
+These hooks were used primarily in the `products/index.js` and `product/[id].js` pages to enhance code reusability and maintainability.
+
+---
+
+## Custom Hooks Implementation
+
+### 1. `useFetch` Hook
+
+This hook is responsible for fetching product data while handling authentication and error states.
+
+#### **Location:** `hooks/api.js`
+
+```javascript
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+
+export function useFetch(url, initialState = []) {
+  const [data, setData] = useState(initialState);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+
+  const fetchData = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("No token found, redirecting to login.");
+        router.push("/signin");
+        return;
+      }
+
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        if (response.status === 401) {
+          console.error("Unauthorized: Token expired.");
+          localStorage.removeItem("token");
+          router.push("/signin");
+        }
+        throw new Error(
+          `Fetch error ${response.status}: ${response.statusText}`
+        );
+      }
+
+      const productData = await response.json();
+      if (Array.isArray(productData)) {
+        setData(productData);
+      } else if (Array.isArray(productData.products)) {
+        setData(productData.products);
+      } else {
+        setData([]);
+        setError(true);
+      }
+    } catch (error) {
+      console.error("Failed to fetch products: ", error);
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [url]);
+
+  return [error, loading, data];
+}
+```
+
+---
+
+### 2. `useAuth` Hook
+
+This hook manages authentication by storing and retrieving user session data.
+
+#### **Location:** `hooks/auth.js`
+
+```javascript
+import { useEffect, useState } from "react";
+
+export default function useAuth() {
+  const [user, setUser] = useState();
+  const [token, setToken] = useState();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authError, setAuthError] = useState(false);
+
+  useEffect(() => {
+    try {
+      const storedToken = localStorage.getItem("token");
+      const storedUser = localStorage.getItem("user");
+      if (storedToken) {
+        setToken(storedToken);
+        setIsAuthenticated(true);
+      }
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
+    } catch (error) {
+      console.error("Error in useAuth hook: ", error);
+      setAuthError(true);
+    }
+  }, []);
+
+  const clearAuth = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setUser(null);
+    setToken(null);
+    setIsAuthenticated(false);
+  };
+
+  return { user, token, isAuthenticated, authError, clearAuth };
+}
+```
+
+---
+
+## Usage in `products/index.js`
+
+The `useFetch` hook is used to fetch product data and update the UI accordingly.
+
+```javascript
+import { useFetch } from "@/hooks/api";
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
+export default function ProductsPage() {
+  const [url, setUrl] = useState(`${BACKEND_URL}/products`);
+  const [productsFetchError, loading, products] = useFetch(url, []);
+
+  return (
+    <div>
+      <h1 className="text-4xl font-bold text-center">Products</h1>
+      {productsFetchError ? (
+        <p className="text-red-400 text-lg text-center">
+          Error fetching products. Please try again later.
+        </p>
+      ) : (
+        ""
+      )}
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <div>
+          {products.map((product) => (
+            <ProductCard key={product._id} product={product} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
+---
+
+## Key Takeaways
+
+- **Reusability**: The custom hooks allow reusing API fetching and authentication logic across multiple pages.
+- **Authentication Handling**: The `useAuth` hook ensures session management and token validation.
+- **Improved State Management**: The hooks simplify data fetching, state management, and error handling.
+- **Secure API Requests**: The `useFetch` hook ensures only authenticated users can fetch protected resources.
+
+---
+
+## Next Steps
+
+- Implement more custom hooks for cart management and user profile handling.
+- Improve error messaging and retry logic for API requests.
+
+# Coffee Shop Frontend - Part 6
+
+## Overview
+
+In this phase of the Coffee Shop frontend development, I focused on learning and implementing `useContext` to manage authentication state across the application. This was crucial for creating admin pages with restricted access.
+
+## Key Features Implemented
+
+- **Authentication Management:** Implemented `useContext` to handle authentication state.
+- **Admin Pages:** Developed pages for editing and creating products with access restricted to authenticated users.
+- **Form Handling:** Used `FormData` for product creation, including file uploads.
+- **Dynamic Routing:** Implemented Next.js dynamic routes for handling product creation and updates.
+
+## Understanding `useContext`
+
+`useContext` is a React hook that allows state sharing across multiple components without the need for prop drilling. In this project, it was used to manage authentication state globally.
+
+### Authentication Context (`context/AuthContext.js`)
+
+I created `AuthContext.js` to centralize authentication state, making it accessible across multiple components.
+
+```javascript
+import { createContext, useContext } from "react";
+import useAuthHook from "@/hooks/auth";
+
+const AuthContext = createContext();
+
+export function AuthProvider({ children }) {
+  const { user, token, isAuthenticated, clearAuth } = useAuthHook();
+
+  return (
+    <AuthContext.Provider value={{ user, token, isAuthenticated, clearAuth }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+export const useAuth = () => useContext(AuthContext);
+```
+
+## Admin Pages
+
+### Edit Product Page (`admin/products/[id].js`)
+
+- Fetches product data from the backend using the `id` from the URL.
+- Uses authentication to ensure only authorized users can edit products.
+- Handles form submission to update the product details.
+
+```javascript
+const { token } = useAuth();
+useEffect(() => {
+  async function fetchProduct() {
+    const response = await fetch(`${BACKEND_URL}/products/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const product = await response.json();
+    setName(product.name);
+    setDescription(product.description);
+  }
+  fetchProduct();
+}, [id, token]);
+```
+
+### Create Product Page (`admin/products/create.js`)
+
+- Implements a form to add new products.
+- Uses `FormData` to handle file uploads.
+- Sends an authenticated request to the backend to create the product.
+
+```javascript
+async function createProduct(product) {
+  const response = await fetch(createUrl, {
+    method: "POST",
+    body: product,
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+```
+
+## Screenshots
+
+### Index Page (`admin/products/`)
+
+![products page (admin)](public/screenshots/image-12.png)
+
+### Create Product Page (`admin/products/create.js`)
+
+![create a product (admin)](public/screenshots/image-11.png)
+
+### Edit Product Page (`admin/products/[id].js`)
+
+![edit product (admin): cold brew](public/screenshots/image-13.png)
+
+### Index Page After Edit (`admin/products/`)
+
+![products page (admin) after edit](public/screenshots/image-14.png)
+
+## Conclusion
+
+This part of the project strengthened my understanding of React Context API and authentication management. It also reinforced my skills in making authenticated requests, handling form data effectively, and managing dynamic routing in Next.js.
