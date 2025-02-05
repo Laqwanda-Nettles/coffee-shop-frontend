@@ -16,7 +16,7 @@ export default function CartSummary() {
   // calculate total
   const total = subtotal + tax;
   return (
-    <div className="px-6 mx-5">
+    <div className="px-6 mx-5 dark:bg-primary-content">
       <div className="text-2xl font-semibold text-center mt-2 mb-4">
         <h2>Order Summary</h2>
       </div>

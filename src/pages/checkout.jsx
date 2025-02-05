@@ -11,12 +11,15 @@ export default function Checkout() {
   return (
     <>
       <Navbar title={"Jazzed Up Coffee"} />
-      <div className="m-4 flex justify-evenly items-start gap-4">
-        <CheckoutForm handleClick={handlePayment} />
-        <div className="bg-white rounded-lg shadow-lg">
-          <CartSummary />
+      <div className={`min-h-[84vh]`}>
+        <div className="m-4 flex justify-evenly items-start gap-4">
+          <CheckoutForm handleClick={handlePayment} />
+          <div className="bg-white dark:bg-primary-content rounded-lg shadow-lg">
+            <CartSummary />
+          </div>
         </div>
       </div>
+
       <Footer info={"Jazzed Up Coffee"} />
     </>
   );

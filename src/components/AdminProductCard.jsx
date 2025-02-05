@@ -12,7 +12,7 @@ export default function AdminProductCard({
   const currentPath = router.pathname;
 
   return (
-    <div className="card bg-white w-96 shadow-lg">
+    <div className="card bg-white dark:bg-primary-content w-96 shadow-lg">
       <figure className="px-10 pt-10">
         <img src={product.imageUrl} alt={product.name} className="rounded-xl" />
       </figure>
@@ -29,11 +29,15 @@ export default function AdminProductCard({
           </Link>
         )}
         <div className="card-actions">
-          <Button label={"Delete"} handleClick={handleClick} />
+          <Button
+            label={"Delete"}
+            handleClick={handleClick}
+            variant="btn-primary dark:btn-error"
+          />
           <Button
             label={"Edit"}
             handleClick={secondaryHandleClick}
-            variant="btn-info"
+            variant="btn-info dark:btn-accent"
           />
         </div>
       </div>

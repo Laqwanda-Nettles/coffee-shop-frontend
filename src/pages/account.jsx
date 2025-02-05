@@ -7,14 +7,14 @@ export default function AccountPage() {
   return (
     <>
       <Navbar title={"Jazzed Up Coffee"} />
-      <div className="bg-neutral-content min-h-screen p-8">
-        <div className="max-w-4xl mx-auto bg-white shadow-xl rounded-xl p-6">
+      <div className="bg-neutral-content dark:bg-base-200 min-h-screen p-8">
+        <div className="max-w-4xl mx-auto bg-white dark:bg-neutral shadow-xl rounded-xl p-6">
           {/* Profile Section */}
           <div className="flex items-center space-x-6 border-b pb-6 mb-6">
             <div className="avatar">
               <div className="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
                 <svg
-                  className="text-accent"
+                  className="text-accent dark:text-secondary"
                   xmlns="http://www.w3.org/2000/svg"
                   width={96}
                   height={96}
@@ -34,10 +34,10 @@ export default function AccountPage() {
               </div>
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-gray-800">
+              <h2 className="text-2xl font-bold text-gray-800 dark:text-base-content">
                 {user ? user.name : "Guest"}
               </h2>
-              <p className="text-gray-600">
+              <p className="text-gray-600 dark:text-info">
                 {user ? user.email : "Not logged in"}
               </p>
               <button className="btn btn-sm btn-outline mt-2">
@@ -53,7 +53,7 @@ export default function AccountPage() {
             </h3>
             <div className="mt-4 space-y-4">
               <div className="card bg-base-100 shadow-md p-4">
-                <p className="text-gray-700">
+                <p className="text-gray-700 dark:text-neutral-content">
                   French Roast —{" "}
                   <span className="font-semibold">Delivered</span>
                 </p>
@@ -62,7 +62,7 @@ export default function AccountPage() {
                 </p>
               </div>
               <div className="card bg-base-100 shadow-md p-4">
-                <p className="text-gray-700">
+                <p className="text-gray-700 dark:text-neutral-content">
                   Chicory Blend —{" "}
                   <span className="text-warning font-semibold">Processing</span>
                 </p>
@@ -106,7 +106,7 @@ export default function AccountPage() {
 
           {/* Support Section */}
           <div className="text-center mt-8">
-            <p className="text-gray-600">
+            <p className="text-gray-600 dark:text-secondary-content">
               Need help?{" "}
               <a href="#" className="text-primary underline font-semibold">
                 Contact Support

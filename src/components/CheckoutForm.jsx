@@ -23,7 +23,7 @@ export default function CheckoutForm({ handleClick }) {
   }
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-8 max-w-md w-full">
+    <div className="bg-white dark:bg-primary-content shadow-md rounded-lg p-8 max-w-md w-full">
       <h2 className="text-2xl font-bold text-center mb-6">Checkout</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Full Name */}

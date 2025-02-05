@@ -5,12 +5,12 @@ export default function AboutPage() {
   return (
     <>
       <Navbar title={"Jazzed Up Coffee"} />
-      <div className="bg-neutral-content min-h-screen p-8">
+      <div className="bg-neutral-content dark:bg-base-200 min-h-screen p-8">
         <div className="max-w-5xl mx-auto text-center">
           <h1 className="text-5xl font-bold text-primary mb-6">About Us</h1>
-          <p className="text-lg text-gray-700 leading-relaxed">
+          <p className="text-lg text-gray-700 dark:text-neutral-content leading-relaxed">
             Welcome to{" "}
-            <span className="text-secondary font-semibold italic">
+            <span className="text-secondary dark:text-base-content font-semibold italic">
               Jazzed Up Coffee
             </span>
             , where every sip is a celebration of flavor, tradition, and the
@@ -25,9 +25,9 @@ export default function AboutPage() {
           <h2 className="text-3xl font-bold text-primary text-center mb-4">
             Our Story
           </h2>
-          <div className="bg-white shadow-lg rounded-xl p-6 text-gray-800">
+          <div className="bg-white shadow-lg rounded-xl p-6 text-gray-800 dark:text-accent-content dark:bg-primary-content">
             <p className="leading-relaxed">
-              <span className="font-semibold italic text-secondary">
+              <span className="font-semibold italic text-secondary dark:text-base-content">
                 Jazzed Up Coffee
               </span>{" "}
               was born in the heart of Louisiana, where coffee isn't just a
@@ -51,23 +51,23 @@ export default function AboutPage() {
         <div className="mt-12 text-center">
           <h2 className="text-3xl font-bold text-primary mb-6">Our Values</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="card bg-white shadow-md p-6 rounded-lg">
+            <div className="card bg-white dark:bg-primary-content shadow-md p-6 rounded-lg">
               <h3 className="font-semibold text-xl">Southern Hospitality</h3>
-              <p className="text-gray-700">
+              <p className="text-gray-700 dark:text-accent-content">
                 We treat every customer like family. A warm welcome and a great
                 cup of coffee—it's the Louisiana way.
               </p>
             </div>
-            <div className="card bg-white shadow-md p-6 rounded-lg">
+            <div className="card bg-white dark:bg-primary-content shadow-md p-6 rounded-lg">
               <h3 className="font-semibold text-xl">Quality & Craft</h3>
-              <p className="text-gray-700">
+              <p className="text-gray-700 dark:text-accent-content">
                 We source premium beans and slow-roast them in small batches for
                 maximum flavor and smoothness.
               </p>
             </div>
-            <div className="card bg-white shadow-md p-6 rounded-lg">
+            <div className="card bg-white dark:bg-primary-content shadow-md p-6 rounded-lg">
               <h3 className="font-semibold text-xl">Community & Culture</h3>
-              <p className="text-gray-700">
+              <p className="text-gray-700 dark:text-accent-content">
                 From jazz clubs to Sunday brunch, our coffee is made to bring
                 people together and keep traditions alive.
               </p>
@@ -88,10 +88,10 @@ export default function AboutPage() {
                   alt="Founder"
                 />
               </div>
-              <p className="mt-2 text-gray-800 font-semibold">
+              <p className="mt-2 text-gray-800 dark:text-info font-semibold">
                 Alex Boudreaux, Founder
               </p>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 dark:text-neutral-content">
                 The mastermind behind the blends, Alex grew up drinking chicory
                 coffee with their grandparents and dreamed of creating the
                 perfect brew.
@@ -104,10 +104,10 @@ export default function AboutPage() {
                   alt="Head Roaster"
                 />
               </div>
-              <p className="mt-2 text-gray-800 font-semibold">
+              <p className="mt-2 text-gray-800 dark:text-info font-semibold">
                 Jordan LeBlanc, Head Roaster
               </p>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 dark:text-neutral-content">
                 A true coffee alchemist, Jordan ensures every batch of beans is
                 roasted to perfection, balancing boldness with smoothness.
               </p>
@@ -120,13 +120,13 @@ export default function AboutPage() {
           <h2 className="text-3xl font-bold text-primary text-center mb-6">
             Our Coffee
           </h2>
-          <div className="bg-white shadow-lg rounded-xl p-6 text-gray-800">
+          <div className="bg-white dark:bg-primary-content shadow-lg rounded-xl p-6 text-gray-800 dark:text-accent-content">
             <p className="leading-relaxed">
               From classic dark roasts to rich, velvety blends with hints of
               praline and chicory, we craft coffee that embodies the soulful
               flavors of Louisiana. Whether you're sipping an espresso in the
               French Quarter or brewing a comforting cup at home,{" "}
-              <span className="font-semibold italic text-secondary">
+              <span className="font-semibold italic text-secondary dark:text-base-content">
                 Jazzed Up Coffee
               </span>{" "}
               brings the essence of New Orleans straight to your mug.
@@ -137,9 +137,9 @@ export default function AboutPage() {
         {/* Call to Action */}
         <div className="mt-12 text-center">
           <h2 className="text-3xl font-bold text-primary mb-6">Get in Touch</h2>
-          <p className="text-lg text-gray-700">
+          <p className="text-lg text-gray-700 dark:text-neutral-content">
             Have questions or just want to say hello? Reach us at{" "}
-            <span className="text-secondary font-semibold">
+            <span className="text-secondary font-semibold dark:text-error">
               hello@jazzedupcoffee.com
             </span>
             .

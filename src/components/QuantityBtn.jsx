@@ -19,7 +19,7 @@ export default function QuantityBtn({ quantity, onQuantityChange }) {
     <div className="join border border-base-300 rounded-md">
       <Button
         label={"-"}
-        variant="join-item btn-secondary"
+        variant="join-item btn-secondary dark:btn-info"
         handleClick={handleDecrease}
       />
       <input
@@ -30,7 +30,7 @@ export default function QuantityBtn({ quantity, onQuantityChange }) {
       />
       <Button
         label={"+"}
-        variant="join-item btn-primary"
+        variant="join-item btn-primary dark:btn-accent"
         handleClick={handleIncrease}
       />
     </div>

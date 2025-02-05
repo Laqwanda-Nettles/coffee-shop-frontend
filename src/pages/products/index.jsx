@@ -31,7 +31,7 @@ export default function ProductsPage() {
           <ul className="cursor-pointer font-semibold">
             <li
               onClick={() => setUrl(`${BACKEND_URL}/products?limit=50`)}
-              className={`hover:text-secondary`}
+              className={`hover:text-secondary dark:hover:text-success`}
             >
               All
             </li>
@@ -39,7 +39,7 @@ export default function ProductsPage() {
               onClick={() =>
                 setUrl(`${BACKEND_URL}/products?category=beverages`)
               }
-              className={`hover:text-secondary`}
+              className={`hover:text-secondary dark:hover:text-success`}
             >
               Beverages
             </li>
@@ -47,7 +47,7 @@ export default function ProductsPage() {
               onClick={() =>
                 setUrl(`${BACKEND_URL}/products?category=pastries`)
               }
-              className={`hover:text-secondary`}
+              className={`hover:text-secondary dark:hover:text-success`}
             >
               Pastries
             </li>
@@ -55,7 +55,7 @@ export default function ProductsPage() {
               onClick={() =>
                 setUrl(`${BACKEND_URL}/products?category=merchandise`)
               }
-              className={`hover:text-secondary`}
+              className={`hover:text-secondary dark:hover:text-success`}
             >
               Merchandise
             </li>

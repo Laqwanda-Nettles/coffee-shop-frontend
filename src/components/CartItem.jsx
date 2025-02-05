@@ -13,7 +13,7 @@ export default function CartItem({ product, onQuantityChange, handleRemove }) {
   const totalPrice = product.price * quantity;
 
   return (
-    <div className="card card-side bg-base-100 shadow-xl">
+    <div className="card card-side bg-base-100 dark:bg-neutral shadow-xl">
       <figure className="max-w-64 max-h-64">
         <img src={product.imageUrl} alt={product.name} />
       </figure>

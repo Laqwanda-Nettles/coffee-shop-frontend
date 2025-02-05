@@ -42,7 +42,7 @@ export default function Cart() {
           <Button
             label={"Checkout"}
             handleClick={handleCheckout}
-            variant="btn-info btn-wide"
+            variant="btn-info btn-wide dark:btn-primary"
           />
         </div>
       </div>

@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import Button from "./Button";
 import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar({ title }) {
   const router = useRouter();
@@ -167,6 +168,7 @@ export default function Navbar({ title }) {
               </li>
             )}
           </ul>
+          <ThemeToggle />
         </div>
       </div>
     </div>

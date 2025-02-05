@@ -106,7 +106,7 @@ export default function AdminProduct() {
       <h1 className="text-primary text-center text-4xl font-bold m-4">
         Edit Product:
       </h1>
-      <div className="bg-neutral-content p-5 m-5 flex justify-center rounded-xl shadow-md">
+      <div className="bg-neutral-content dark:bg-primary-content p-5 m-5 flex justify-center rounded-xl shadow-md">
         <form
           onSubmit={handleSubmit}
           className="flex flex-col gap-4 w-full max-w-lg"

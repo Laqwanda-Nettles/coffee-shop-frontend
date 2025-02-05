@@ -8,7 +8,7 @@ export default function ProductCard({ product, handleClick }) {
   const currentPath = router.pathname;
 
   return (
-    <div className="card bg-white w-96 shadow-lg">
+    <div className="card bg-white dark:bg-primary-content w-96 shadow-lg">
       <figure className="px-10 pt-10">
         <img src={product.imageUrl} alt={product.name} className="rounded-xl" />
       </figure>
