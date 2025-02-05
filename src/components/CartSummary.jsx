@@ -1,14 +1,8 @@
-import { loadCartFromLocalStorage } from "@/utils";
-import { useEffect, useState } from "react";
+import { useCart } from "@/context/CartContext";
 
 export default function CartSummary() {
-  const [cart, setCart] = useState([]);
+  const { cart } = useCart();
   const salesTaxRate = 0.0445;
-
-  useEffect(() => {
-    const cartData = loadCartFromLocalStorage();
-    setCart(cartData || []);
-  }, []);
 
   // calculate subtotal by summing up item prices
   const subtotal = cart.reduce(
