@@ -25,7 +25,7 @@ export const loginUserToLocalStorage = (user) => {
 };
 
 export const removeItemFromCart = (itemId) => {
-  const cart = loadCartFromLocalStorage();
+  const cart = loadCartFromLocalStorage() || [];
   const updatedCart = cart.filter((item) => item._id !== itemId);
   saveCartToLocalStorage(updatedCart);
   return updatedCart;
