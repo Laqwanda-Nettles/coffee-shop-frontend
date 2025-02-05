@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Loading from "@/components/Loading";
 import { useEffect, useState } from "react";
-import { loadCartFromLocalStorage, saveCartToLocalStorage } from "@/utils";
+import { useCart } from "@/context/CartContext";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
@@ -15,18 +15,8 @@ export default function ProductPage() {
   const [product, setProduct] = useState({});
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [cart, setCart] = useState([]);
 
-  useEffect(() => {
-    const cartData = loadCartFromLocalStorage();
-    setCart(cartData);
-  }, []);
-
-  function addProductToCart(product) {
-    const newCart = [...cart, product];
-    setCart(newCart);
-    saveCartToLocalStorage(newCart);
-  }
+  const { addProductToCart } = useCart();
 
   const url = `${BACKEND_URL}/products/${id}`;
 
@@ -52,6 +42,7 @@ export default function ProductPage() {
     }
     fetchProduct();
   }, [id]);
+
   function handleAddToCart() {
     if (!product) {
       return;
@@ -61,22 +52,29 @@ export default function ProductPage() {
   }
 
   return (
-    <>
+    <div className="flex flex-col">
       <Navbar title={"Jazzed Up Coffee"} />
-      <div className="flex flex-col items-center m-4 gap-4">
-        <h1 className="text-4xl font-bold text-primary text-center mb-4">
-          Product Page for product &#35; {id}
-        </h1>
-        {error && <p className="text-red-400 text-lg text-center">{error}</p>}
-        {loading ? (
-          <Loading />
-        ) : product ? (
-          <ProductCard product={product} handleClick={handleAddToCart} />
-        ) : (
-          <p className="text-center text-xl text-red-400">Product not found.</p>
-        )}
+      <div className={`min-h-[84vh]`}>
+        <div className="flex flex-col items-center m-4 gap-4">
+          <h1 className="text-4xl font-bold text-primary text-center mb-4">
+            {product.name}
+          </h1>
+          {error && <p className="text-red-400 text-lg text-center">{error}</p>}
+          {loading ? (
+            <div className="flex justify-center items-center h-96">
+              <Loading />
+            </div>
+          ) : product ? (
+            <ProductCard product={product} handleClick={handleAddToCart} />
+          ) : (
+            <p className="text-center text-xl text-red-400">
+              Product not found.
+            </p>
+          )}
+        </div>
+        <div className="fixed bottom-0"></div>
       </div>
       <Footer info={"Jazzed Up Coffee"} />
-    </>
+    </div>
   );
 }
