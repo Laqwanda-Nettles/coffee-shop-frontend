@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import Loading from "@/components/Loading";
 import { useFetch } from "@/hooks/api";
 import AdminProductCard from "@/components/AdminProductCard";
-//import useAuth from "@/hooks/auth";
 import { useAuth } from "@/context/AuthContext";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
@@ -68,44 +67,62 @@ export default function ProductsPage() {
     <p className="text-center text-red-400">No products available.</p>
   );
   return (
-    <div>
+    <div className="flex flex-col">
       <Navbar title={"Jazzed Up Coffee"} />
-      <h1 className="text-4xl text-primary font-bold text-center">Products</h1>
-      <div className="breadcrumbs max-w-xs text-sm m-4">
-        <ul className="cursor-pointer font-semibold">
-          <li
-            onClick={() => setUrl(`${BACKEND_URL}/products?category=beverages`)}
-            className={`hover:text-secondary active:border-b-4 `}
-          >
-            Beverages
-          </li>
-          <li
-            onClick={() => setUrl(`${BACKEND_URL}/products?category=pastries`)}
-          >
-            Pastries
-          </li>
-          <li
-            onClick={() =>
-              setUrl(`${BACKEND_URL}/products?category=merchandise`)
-            }
-          >
-            Merchandise
-          </li>
-        </ul>
-      </div>
-
-      {loading ? (
-        <Loading />
-      ) : productsFetchError ? (
-        <p className="text-red-400 text-lg text-center">
-          Error fetching products. Please try again later.
-        </p>
-      ) : (
-        <div className="flex flex-wrap justify-evenly items-center gap-5 m-4">
-          {productsJSX}
+      <div className={`min-h-[84vh]`}>
+        <h1 className="mt-4 text-4xl text-primary font-bold text-center">
+          Manage Products
+        </h1>
+        <div className="breadcrumbs max-w-xs text-md m-4">
+          <ul className="cursor-pointer font-semibold">
+            <li
+              onClick={() => setUrl(`${BACKEND_URL}/products?limit=50`)}
+              className={`hover:text-secondary`}
+            >
+              All
+            </li>
+            <li
+              onClick={() =>
+                setUrl(`${BACKEND_URL}/products?category=beverages`)
+              }
+              className={`hover:text-secondary`}
+            >
+              Beverages
+            </li>
+            <li
+              onClick={() =>
+                setUrl(`${BACKEND_URL}/products?category=pastries`)
+              }
+              className={`hover:text-secondary`}
+            >
+              Pastries
+            </li>
+            <li
+              onClick={() =>
+                setUrl(`${BACKEND_URL}/products?category=merchandise`)
+              }
+              className={`hover:text-secondary`}
+            >
+              Merchandise
+            </li>
+          </ul>
         </div>
-      )}
-      <Footer />
+
+        {loading ? (
+          <div className="flex justify-center items-center h-96">
+            <Loading />
+          </div>
+        ) : productsFetchError ? (
+          <p className="text-red-400 text-lg text-center">
+            Error fetching products. Please try again later.
+          </p>
+        ) : (
+          <div className="flex flex-wrap justify-evenly items-center gap-5 m-4">
+            {productsJSX}
+          </div>
+        )}
+      </div>
+      <Footer info={"Jazzed Up Coffee"} />
     </div>
   );
 }
