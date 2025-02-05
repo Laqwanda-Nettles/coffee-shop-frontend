@@ -53,7 +53,7 @@ export default function Navbar({ title }) {
               <Link href="/products">Products</Link>
             </li>
             <li>
-              <Link href="#">About</Link>
+              <Link href="/about">About</Link>
             </li>
 
             {isAuthenticated && user?.role === "admin" && (
