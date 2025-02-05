@@ -33,7 +33,7 @@ export function useFetch(url, intialState = []) {
         const errorMessage = `Fetch error ${response.status}: ${response.statusText}`;
 
         //Handle expired token (401 Unauthorized)
-        if (result.status === 401) {
+        if (response.status === 401) {
           console.error("Unauthorized: Token expired.");
           localStorage.removeItem("token"); // Remove expired token
 
@@ -49,7 +49,10 @@ export function useFetch(url, intialState = []) {
         // Check if the response contains the expected array
         if (Array.isArray(productData)) {
           setData(productData);
-        } else if (Array.isArray(productData.products)) {
+        } else if (
+          productData.products &&
+          Array.isArray(productData.products)
+        ) {
           setData(productData.products);
         } else {
           console.error("Unexpected API response format:", productData);
@@ -60,7 +63,7 @@ export function useFetch(url, intialState = []) {
       }
     } catch (error) {
       console.error("Failed to fetch products: ", error);
-      setError(true);
+      setError(error.message || "An error occurred.");
     } finally {
       setLoading(false);
     }
@@ -70,5 +73,5 @@ export function useFetch(url, intialState = []) {
     fetchData();
   }, [url]);
 
-  return [error, loading, data];
+  return [error, loading, data, fetchData];
 }
