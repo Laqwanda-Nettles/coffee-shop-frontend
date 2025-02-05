@@ -14,11 +14,9 @@ export function CartProvider({ children }) {
     }
   }, []);
 
-  // Save cart to localStorage whenever it updates
+  // Save cart to localStorage
   useEffect(() => {
-    if (cart.length > 0) {
-      saveCartToLocalStorage(cart);
-    }
+    saveCartToLocalStorage(cart);
   }, [cart]);
 
   // Function to add a product to the cart
