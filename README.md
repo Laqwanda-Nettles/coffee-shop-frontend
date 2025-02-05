@@ -773,3 +773,72 @@ async function deleteProduct(productId) {
 ## Conclusion
 
 This part of the project strengthened my understanding of React Context API and authentication management. It also reinforced my skills in making authenticated requests, handling form data effectively, and managing dynamic routing in Next.js.
+
+# Coffee Shop Frontend - Part 7: Cart & Quantity Feature
+
+## Overview
+
+In this phase of the Coffee Shop Frontend project, I focused on enhancing the cart functionality by adding a quantity button and implementing logic to handle duplicate items in the cart efficiently. The main goal was to ensure that the cart summary reflected accurate prices based on item quantities while addressing conflicts between the cart preview (in the navbar) and the cart page.
+
+## Key Features Implemented
+
+### 1. Quantity Button & Duplicate Handling
+
+- Implemented a `QuantityBtn` component to allow users to adjust item quantities directly within the cart.
+- Ensured that adding the same product multiple times updated the quantity instead of creating duplicates.
+- Used the `useState` hook to manage item quantities and update the cart dynamically.
+
+### 2. Cart Summary Accuracy
+
+- Modified `CartSummary.jsx` to properly calculate and display:
+  - Subtotal
+  - Tax (at a rate of 4.45%)
+  - Total price
+- Ensured that these values updated dynamically based on the cart contents.
+
+### 3. Resolving Cart State Conflicts
+
+- Encountered an issue where `CartPreview` (displayed in the navbar) and the main cart page overwrote each other’s state.
+- After extensive testing and debugging with `console.log`, I decided to use `useContext` to manage global cart state, ensuring consistent updates across all cart-related components.
+
+## Files Updated
+
+### `CartItem.jsx`
+
+- Displays cart items with their images, names, categories, prices, and quantity controls.
+- Uses the `useEffect` hook to update the quantity dynamically and recalculate the total price.
+- Includes a "Remove" button to delete items from the cart.
+
+### `CartPreview.jsx`
+
+- Shows a summary of cart items in the navbar dropdown.
+- Displays product images, names, quantities, and total prices.
+- Ensures a consistent view of the cart in the navbar without interfering with the main cart page.
+
+### `CartSummary.jsx`
+
+- Loads the cart from local storage to maintain state across page reloads.
+- Computes subtotal, tax, and total dynamically.
+- Ensures prices update correctly when item quantities change.
+
+### `Navbar.jsx`
+
+- Integrates `CartPreview` to display a quick cart summary in the navbar.
+- Uses `useContext` to manage global cart state.
+- Implements a dynamic cart indicator showing the total number of items in the cart.
+
+## Challenges & Solutions
+
+### 1. **Duplicate Items in Cart**
+
+- **Issue:** When adding the same product multiple times, it created duplicate entries instead of updating the quantity.
+- **Solution:** Modified the cart logic to check for existing items and update the quantity instead of adding a new entry.
+
+### 2. **State Conflicts Between Cart Pages**
+
+- **Issue:** The `CartPreview` (in navbar) and `Cart` page were overwriting each other's state, causing inconsistent UI behavior.
+- **Solution:** Implemented `useContext` to centralize cart state management, ensuring both components remained in sync.
+
+## Conclusion
+
+This update significantly improved the shopping experience by streamlining cart management, enhancing price accuracy, and maintaining state consistency across components. By leveraging `useContext`, I resolved conflicting cart state issues, ensuring a seamless cart experience for users. Future improvements may include persisting cart state across sessions and adding a checkout process.
