@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-export function useFetch(url, intialState = []) {
+export function useFetch(url, intialState = [], page = 1, limit = 5) {
   const [data, setData] = useState(intialState);
+  const [totalPages, setTotalPages] = useState(1);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
@@ -22,7 +23,9 @@ export function useFetch(url, intialState = []) {
         return;
       }
 
-      const response = await fetch(url, {
+      const paginatedUrl = `${url}?page=${page}&limit=${limit}`;
+
+      const response = await fetch(paginatedUrl, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -54,6 +57,14 @@ export function useFetch(url, intialState = []) {
           Array.isArray(productData.products)
         ) {
           setData(productData.products);
+
+          // Correct totalPages calculation
+          if (productData.total) {
+            const calculatedPages = Math.ceil(productData.total / limit);
+            setTotalPages(calculatedPages);
+          } else {
+            setTotalPages(1); // Default to 1 if there's no total count
+          }
         } else {
           console.error("Unexpected API response format:", productData);
           setData([]); // Set to an empty array if data isn't in expected format
@@ -71,7 +82,7 @@ export function useFetch(url, intialState = []) {
 
   useEffect(() => {
     fetchData();
-  }, [url]);
+  }, [url, page, limit]);
 
-  return [error, loading, data, fetchData];
+  return [error, loading, data, totalPages, fetchData];
 }
