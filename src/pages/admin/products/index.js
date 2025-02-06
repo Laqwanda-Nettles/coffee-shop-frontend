@@ -46,7 +46,6 @@ export default function ProductsPage() {
   };
 
   async function deleteProduct(product) {
-    console.log("Attempting to delete product: ", product);
     const productId = product._id;
 
     try {
