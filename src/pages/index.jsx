@@ -7,7 +7,6 @@ export default function Home() {
   const router = useRouter();
 
   function handleCtaClick() {
-    alert("CTA button clicked!");
     router.push("/signup");
   }
   return (

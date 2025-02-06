@@ -14,9 +14,6 @@ export default function Signup() {
   const [error, setError] = useState("");
 
   async function handleSignup(user) {
-    alert("Sign up clicked!" + user.name);
-    user.role = "admin";
-
     // fetch POST /register
     const response = await fetch(registerURL, {
       method: "POST",

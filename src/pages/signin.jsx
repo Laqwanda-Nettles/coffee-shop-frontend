@@ -15,8 +15,6 @@ export default function Signin() {
   const [errorMsg, setErrorMsg] = useState("");
 
   async function handleSignIn(email, password) {
-    alert("Sign In with: " + email);
-
     const payload = { email, password };
 
     //fetch POST /login
