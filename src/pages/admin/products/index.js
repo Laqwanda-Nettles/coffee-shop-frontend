@@ -13,27 +13,37 @@ export default function ProductsPage() {
   const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState("");
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const [page, setPage] = useState(1);
+  const limit = 5;
 
   const [url, setUrl] = useState(`${BACKEND_URL}/products`);
   const [productsFetchError, loading, products, totalPages] = useFetch(
     url,
     [],
-    currentPage,
-    itemsPerPage
+    page,
+    limit
   );
 
   const { token } = useAuth();
 
   useEffect(() => {
-    const categoryQuery = selectedCategory
-      ? `category=${selectedCategory}&`
-      : "";
-    setUrl(
-      `${BACKEND_URL}/products?${categoryQuery}page=${currentPage}&limit=${itemsPerPage}`
-    );
-  }, [selectedCategory, currentPage]);
+    if (selectedCategory) {
+      const categoryQuery = selectedCategory
+        ? `category=${selectedCategory}&`
+        : "";
+      setUrl(`${BACKEND_URL}/products?${categoryQuery}`);
+    } else {
+      setUrl(`${BACKEND_URL}/products`);
+    }
+  }, [selectedCategory]);
+
+  const handleNextPage = () => {
+    if (page < totalPages) setPage(page + 1);
+  };
+
+  const handlePreviousPage = () => {
+    if (page > 1) setPage(page - 1);
+  };
 
   async function deleteProduct(product) {
     console.log("Attempting to delete product: ", product);
@@ -134,18 +144,16 @@ export default function ProductsPage() {
           <div className="join">
             <button
               className="join-item btn btn-outline"
-              disabled={currentPage === 1}
-              onClick={() => setCurrentPage((prev) => prev - 1)}
+              onClick={handlePreviousPage}
+              disabled={page === 1}
             >
               «
             </button>
-            <button className="join-item btn btn-outline">
-              {currentPage} / {totalPages}
-            </button>
+            <button className="join-item btn btn-outline">{page}</button>
             <button
               className="join-item btn btn-outline"
-              disabled={currentPage >= totalPages || totalPages === 1}
-              onClick={() => setCurrentPage((prev) => prev + 1)}
+              onClick={handleNextPage}
+              disabled={page === totalPages}
             >
               »
             </button>
