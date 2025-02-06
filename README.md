@@ -842,3 +842,247 @@ In this phase of the Coffee Shop Frontend project, I focused on enhancing the ca
 ## Conclusion
 
 This update significantly improved the shopping experience by streamlining cart management, enhancing price accuracy, and maintaining state consistency across components. By leveraging `useContext`, I resolved conflicting cart state issues, ensuring a seamless cart experience for users. Future improvements may include persisting cart state across sessions and adding a checkout process.
+
+# Coffee Shop Frontend - Part 8: Finalization, Testing, and Cleanup
+
+## Overview
+
+This phase of the Coffee Shop Frontend project focused on finalizing features, testing functionality, and cleaning up the codebase. The primary updates included:
+
+- Creation of static pages (`About` and `Account`)
+- Implementation of theme toggling (light/dark mode)
+- Ensuring UI consistency across themes
+- Adding pagination to product pages for both users and admin
+- Implementing state management for alert messages using `useState`
+- Styling alerts with DaisyUI
+
+## Features Implemented
+
+### 1. **Static Pages**
+
+- Created an `About` page to provide information about the coffee shop.
+- Developed an `Account` page for user profile management.
+
+### 2. **Theme Toggle (Light/Dark Mode)**
+
+Implemented a theme toggle component that allows users to switch between light (`autumn`) and dark (`coffee`) modes. The theme selection is persisted in `localStorage`.
+
+**Code Implementation:**
+
+```javascript
+import { useEffect, useState } from "react";
+export default function ThemeToggle() {
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("theme") === "coffee";
+    setIsDark(storedTheme);
+  }, []);
+
+  useEffect(() => {
+    const theme = isDark ? "coffee" : "autumn";
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [isDark]);
+
+  return (
+    <label className="swap swap-rotate">
+      <input
+        type="checkbox"
+        onChange={() => setIsDark(!isDark)}
+        checked={isDark}
+        aria-label="Toggle theme"
+        className="theme-controller"
+      />
+      {/* Icons for theme toggle */}
+      <svg
+        className="swap-off h-10 w-10 fill-current"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+      >
+        <path d="..." />
+      </svg>
+      <svg
+        className="swap-on h-10 w-10 fill-current"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+      >
+        <path d="..." />
+      </svg>
+    </label>
+  );
+}
+```
+
+### 3. **Pagination for Products Pages**
+
+Pagination was added for both user and admin product pages to enhance performance and usability.
+
+- Uses `useFetch` hook to retrieve paginated data.
+- Supports customizable page limits.
+
+**Code Implementation:**
+
+```javascript
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+
+export function useFetch(url, initialState = [], page = 1, limit = 5) {
+  const [data, setData] = useState(initialState);
+  const [totalPages, setTotalPages] = useState(1);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          router.push("/signin");
+          return;
+        }
+
+        const response = await fetch(`${url}?page=${page}&limit=${limit}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          if (response.status === 401) {
+            localStorage.removeItem("token");
+            router.push("/signin");
+          }
+          throw new Error(
+            `Fetch error ${response.status}: ${response.statusText}`
+          );
+        }
+
+        const result = await response.json();
+        setData(result.products || result);
+        setTotalPages(result.totalPages || 1);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [url, page, limit, router]);
+
+  return { data, totalPages, error, loading };
+}
+```
+
+### 4. **State-Based Alert Messages**
+
+- Used `useState` to manage alert messages for user interactions.
+- Styled alerts with DaisyUI to match the theme and UI design.
+
+## Testing & Debugging
+
+- Tested all major features, including theme toggling, pagination, and authentication redirects.
+- Ensured consistency in UI appearance across different themes.
+- Verified API calls for fetching paginated products and token authentication handling.
+
+## Final Cleanup
+
+- Removed redundant code and optimized state handling.
+- Ensured better error handling and user feedback for failed API requests.
+- Conducted UI refinements for a polished look.
+
+---
+
+# ☕ **Coffee Shop - Project Wrap-Up**
+
+📌 **Project Overview**  
+The Coffee Shop frontend project is a functional web application designed to provide a seamless coffee shopping experience. Users can browse coffee products, manage their accounts, and toggle between dark and light themes. The backend handles authentication, product management, and pagination. This project has been an exciting journey, and this wrap-up showcases the progress, technologies used, and future goals.
+
+🚀 **Progress Highlights**  
+✅ Finalized frontend and backend integration.  
+✅ Utilized prop drilling and higher-order components.  
+✅ Implemented dark/light mode toggle using DaisyUI.  
+✅ Added pagination for product pages (both user and admin views).  
+✅ Implement CRUD operations.  
+✅ Ensured full mobile responsiveness and enhanced UI/UX.
+
+📷 **Screenshots**
+
+- **Backend - Postman API Routes**
+
+  - Example: Fetch Products (GET /api/products)
+  - Example: User Authentication (POST /api/auth/login)
+
+- **Frontend - UI Components**
+  - Home Page with Theme Toggle
+  - Product List with Pagination
+  - Account Page
+
+🛠️ **Technologies Used**
+
+- **Frontend**
+
+  - [Next.js](https://nextjs.org/) - Framework for React
+  - [Tailwind CSS](https://tailwindcss.com/) & [DaisyUI](https://daisyui.com/) - Styling and themes
+  - [React Hooks](https://react.dev/reference/react/hooks) - State management
+  - [LocalStorage](https://blog.logrocket.com/localstorage-javascript-complete-guide/) - Storing theme preferences and authentication tokens
+
+- **Backend**
+  - [Node.js](https://nodejs.org/en) & [Express](https://expressjs.com/) - Server-side framework
+  - [MongoDB](https://www.mongodb.com/) - Database for storing products and user data
+  - [JWT Authentication](https://jwt.io/) - Secure user login
+  - [CORS](https://www.npmjs.com/package/cors) - Enabling Cross-Origin Resource Sharing for API requests
+  - [Cloudinary](https://cloudinary.com/) - Cloud image storage and management
+
+🎯 **Future Plans**  
+🔹 Update cart and checkout functionality.  
+🔹 Implement search and filtering options for coffee products.  
+🔹 Expand the admin panel with enhanced product and user management features.  
+🔹 Improve the accessibility of the application.
+
+🏗️ **How to Download and Run**
+
+1. **Clone the Repository**:
+
+```bash
+git clone https://github.com/your-username/coffee-shop-frontend.git
+cd coffee-shop-frontend
+```
+
+2. **Install Dependencies**:
+
+```bash
+npm install
+```
+
+3. **Start the Development Server**:
+
+```bash
+npm run dev
+```
+
+4. **Run the Backend Server (if applicable)**:
+
+```bash
+cd backend
+npm install
+npm start
+```
+
+5. **Open** [http://localhost:3000](http://localhost:3000) in your browser.
+
+🤝 **Contribute to the Project**  
+Interested in improving this project? Contributions are welcome!  
+To contribute:
+
+1. Fork the repository.
+2. Create a new branch for your feature.
+3. Commit your changes with a clear message.
+4. Submit a Pull Request for review.
+
+Happy coding! 🎉☕
