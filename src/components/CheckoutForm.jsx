@@ -9,9 +9,6 @@ export default function CheckoutForm({ handleClick }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    // const name = e.target.name.value;
-    // const email = e.target.email.value;
-    // const address = e.target.address.value;
 
     //reset on submit
     setName("");
