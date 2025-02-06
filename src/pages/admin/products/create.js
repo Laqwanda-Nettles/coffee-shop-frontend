@@ -2,13 +2,14 @@ import Button from "@/components/Button";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { useState } from "react";
-//import useAuth from "@/hooks/auth";
+import { useRouter } from "next/router";
 import { useAuth } from "@/context/AuthContext";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 const createUrl = `${BACKEND_URL}/products`;
 
 export default function CreateProduct() {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
@@ -16,13 +17,17 @@ export default function CreateProduct() {
   const [stock, setStock] = useState("");
   const [image, setImage] = useState(null);
 
+  const [alertMessage, setAlertMessage] = useState(null);
+  const [alertType, setAlertType] = useState(null);
+
   const { token } = useAuth();
 
   //form submit function
   function handleSubmit(e) {
     e.preventDefault();
 
-    alert("Form Submitted! Product added: " + name);
+    setAlertMessage("Submitting product...");
+    setAlertType("alert-info");
 
     const formData = new FormData();
     formData.append("name", name.trim());
@@ -55,25 +60,42 @@ export default function CreateProduct() {
       });
 
       if (!response.ok) {
-        throw new Error(
-          "Failed to create product. Server responded with: " + response.status
-        );
+        const errorData = await response.json();
+        const errorMessage =
+          errorData.message ||
+          `Failed to create product. Server responded with: ${response.status}`;
+        setAlertMessage(errorMessage);
+        setAlertType("alert-error");
+        return;
       }
 
       const data = await response.json();
-      console.log("Server Response: ", data);
 
       if (data._id) {
-        alert("Product successfully created!");
+        setAlertMessage("Product successfully created!");
+        setAlertType("alert-success");
+        router.push("/admin/products");
       }
     } catch (error) {
       console.error("Error creating product: ", error);
+      setAlertMessage("An error occurred while creating the product.");
+      setAlertType("alert-error");
+    } finally {
+      setTimeout(() => {
+        setAlertMessage(null);
+        setAlertType(null);
+      }, 5000);
     }
   }
 
   return (
     <>
       <Navbar title={"Jazzed Up Coffee"} />
+      {alertMessage && (
+        <div className={`alert ${alertType} m-4`}>
+          <span className="text-lg font-semibold">{alertMessage}</span>
+        </div>
+      )}
       <h1 className="text-primary text-center text-4xl font-bold m-4">
         Create a Product:
       </h1>
